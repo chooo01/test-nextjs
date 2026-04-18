@@ -53,95 +53,37 @@ For practical purposes of this exam, the .env file is included in the repository
 ### Installation
 
 1. **Clone the repository:**
-
-	```bash
-	git clone https://github.com/your-username/your-repo.git
-	cd your-repo
-	```
+	https://github.com/chooo01/test-nextjs.git
 
 2. **Install dependencies:**
-
-	```bash
 	npm install
-	```
-
-3. **Set up environment variables:**
-
-	Copy the example file and update values as needed:
-
-	```bash
-	cp .env.example .env
-	```
-
-## Environment Variables
-
-Create a `.env` file in the root directory. Example:
-
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/dbname?schema=public"
-NEXT_PUBLIC_API_URL="http://localhost:3000/api"
-```
-
-- `DATABASE_URL`: Connection string for PostgreSQL (used by Prisma)
-- `NEXT_PUBLIC_API_URL`: Base URL for API routes
 
 ## Running the Application
 
-### Development
+## Note: Only the PostgreSQL database runs in Docker. The Next.js application itself runs locally using Node.js and npm.
 
-```bash
-npm run dev
-```
+### Important: Start Database with Docker
 
-- Starts the Next.js app in development mode at [http://localhost:3000](http://localhost:3000)
+Before running the application, you must start the database using Docker Compose. This will create and run the PostgreSQL database required by the app.
 
-### Production
+1. **Start Docker Compose:**
+	docker-compose up --build
 
-Build and start the app:
+2. **Migrate Schemas to Database**
+	## To apply existing migrations
+	npx prisma migrate dev
 
-```bash
-npm run build
-npm start
-```
+	## To create a new migration after updating your Prisma schema
+	npx prisma migrate dev --name <migration-name>
 
-## Database Setup (Prisma)
-
-### Run Migrations
-
-```bash
-npx prisma migrate dev
-```
-
-### Generate Prisma Client
-
-```bash
-npx prisma generate
-```
-
-## Running with Docker
-
-Start all services (Next.js app, PostgreSQL) using Docker Compose:
-
-```bash
-docker-compose up --build
-```
-
-- **nextjs**: Runs the Next.js application
-- **db**: PostgreSQL database service
-
-Stop services:
-
-```bash
-docker-compose down
-```
+3. **Start the Application:**
+	npm run dev
 
 ## Testing
 
 Run all tests with Jest:
+	npm test
 
-```bash
-npm test
-```
 ## Scripts
 
 Key scripts from `package.json`:
@@ -153,11 +95,3 @@ Key scripts from `package.json`:
 | `start`           | Start production server            |
 | `test`            | Run all Jest tests                 |
 
-## Best Practices
-
-- Use feature branches and pull requests for all changes.
-- Follow consistent code style (see ESLint/Prettier configs).
-- Keep environment variables and secrets out of version control.
-- Write unit and integration tests for new features.
-- Use the repository pattern for data access.
-- Document new modules and APIs.
