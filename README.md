@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# Next.js Prisma PostgreSQL Boilerplate
+
+## Project Overview
+
+This project is a web application built with Next.js, using Prisma ORM to manage the database and PostgreSQL as the data storage.
+It runs inside Docker, which makes it easy to set up and run in any environment.
+The project also includes testing with Jest.
+
+
+For practical purposes of this exam, the .env file is included in the repository. It does not contain any sensitive credentials.
+
+## Tech Stack
+
+- **Next.js** – React framework for server-side rendering and static site generation.
+- **Prisma** – Type-safe ORM for database access and migrations.
+- **PostgreSQL** – Reliable, open-source relational database.
+- **Docker** – Containerization for consistent development and deployment environments.
+- **Jest** – JavaScript testing framework for unit and integration tests.
+
+## Project Structure
+
+```
+├── app/                # Next.js application (pages, layouts, API routes, UI components)
+│   ├── api/            # API route handlers
+│   ├── UI/             # UI components
+│   └── ...
+├── components/         # Shared React components
+├── constants/          # Application constants
+├── lib/                # Library utilities (e.g., Prisma client)
+├── prisma/             # Prisma schema and migrations
+│   ├── schema.prisma   # Database schema
+│   └── migrations/     # Migration files
+├── public/             # Static assets
+├── repositories/       # Data access layer (repository pattern)
+├── services/           # Business logic and service layer
+├── types/              # TypeScript type definitions
+├── __tests__/          # Test files (unit/integration)
+├── Dockerfile          # Docker build instructions
+├── docker-compose.yml  # Multi-service orchestration
+├── package.json        # Project metadata and scripts
+└── README.md           # Project documentation
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
+
+### Installation
+
+1. **Clone the repository:**
+
+	```bash
+	git clone https://github.com/your-username/your-repo.git
+	cd your-repo
+	```
+
+2. **Install dependencies:**
+
+	```bash
+	npm install
+	```
+
+3. **Set up environment variables:**
+
+	Copy the example file and update values as needed:
+
+	```bash
+	cp .env.example .env
+	```
+
+## Environment Variables
+
+Create a `.env` file in the root directory. Example:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname?schema=public"
+NEXT_PUBLIC_API_URL="http://localhost:3000/api"
+```
+
+- `DATABASE_URL`: Connection string for PostgreSQL (used by Prisma)
+- `NEXT_PUBLIC_API_URL`: Base URL for API routes
+
+## Running the Application
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Starts the Next.js app in development mode at [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build and start the app:
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Database Setup (Prisma)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Run Migrations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npx prisma migrate dev
+```
 
-## Deploy on Vercel
+### Generate Prisma Client
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx prisma generate
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Running with Docker
+
+Start all services (Next.js app, PostgreSQL) using Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+- **nextjs**: Runs the Next.js application
+- **db**: PostgreSQL database service
+
+Stop services:
+
+```bash
+docker-compose down
+```
+
+## Testing
+
+Run all tests with Jest:
+
+```bash
+npm test
+```
+## Scripts
+
+Key scripts from `package.json`:
+
+| Script            | Description                        |
+|-------------------|------------------------------------|
+| `dev`             | Start development server           |
+| `build`           | Build for production               |
+| `start`           | Start production server            |
+| `test`            | Run all Jest tests                 |
+
+## Best Practices
+
+- Use feature branches and pull requests for all changes.
+- Follow consistent code style (see ESLint/Prettier configs).
+- Keep environment variables and secrets out of version control.
+- Write unit and integration tests for new features.
+- Use the repository pattern for data access.
+- Document new modules and APIs.
